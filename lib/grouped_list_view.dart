@@ -40,6 +40,11 @@ class GroupedListView extends StatelessWidget {
   Color? primaryColor;
   final ScrollPhysics? physics;
 
+  TextStyle? selectedTitleStyle;
+  TextStyle? defaultTitleStyle;
+
+  IndexPath? initialIndex;
+
   Function(int section)? didSelectedSectionIndex;
   Function? didDeSelectedSectionIndex;
 
@@ -51,9 +56,13 @@ class GroupedListView extends StatelessWidget {
       this.showIndexTitle = false,
       this.sectionIndexTitles,
       this.primaryColor,
-      this.titleColor, this.physics,
+      this.titleColor,
+      this.physics,
       this.didSelectedSectionIndex,
-      this.didDeSelectedSectionIndex}) {
+      this.didDeSelectedSectionIndex,
+      this.selectedTitleStyle,
+      this.defaultTitleStyle,
+      this.initialIndex}) {
     _indexToIndexPathList = [];
   }
 
@@ -77,9 +86,8 @@ class GroupedListView extends StatelessWidget {
         Positioned(
             right: 0,
             child: IndexedTitleView(
-                sectionIndexTitles ?? [],
-                titleColor ?? Colors.black,
-                primaryColor ?? Theme.of(context).primaryColor, (selectedIndex) {
+                sectionIndexTitles ?? [], defaultTitleStyle, selectedTitleStyle,
+                (selectedIndex) {
               if (selectedIndex != null) {
                 final index = _sectionIndex[selectedIndex];
                 jumpTo(index);
@@ -106,7 +114,7 @@ class GroupedListView extends StatelessWidget {
 
       _sectionIndex.add(_indexToIndexPathList.length);
       _indexToIndexPathList.add(listItem);
-      
+
       final int rows = itemCountInSection(section);
       for (int index = 0; index < rows; index++) {
         //Add item
