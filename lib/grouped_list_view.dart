@@ -69,6 +69,8 @@ class GroupedListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _calculateIndexPath();
+    _finishedBuild();
+
     final list = ScrollablePositionedList.builder(
         itemCount: _indexToIndexPathList.length,
         itemScrollController: itemScrollController,
@@ -134,6 +136,18 @@ class GroupedListView extends StatelessWidget {
       return sectionBuilder(context, indexPath.section);
     }
     return itemBuilder(context, indexPath);
+  }
+
+  _finishedBuild() {
+    WidgetsBinding.instance.addPostFrameCallback((duration){
+      if (initialIndex == null) return;
+      for (int i = 0; i <_indexToIndexPathList.length; i++ ) {
+        final item = _indexToIndexPathList[i];
+        if (item.indexPath.section == initialIndex!.section && item.indexPath.index == initialIndex!.index) {
+          itemScrollController.jumpTo(index: i);
+        }
+      }
+    });
   }
 
   jumpTo(int index) {
