@@ -27,24 +27,21 @@ class _State extends State<IndexedTitleView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.transparent,
-      width: 60,
-      child: Center(
-        child: GestureDetector(
-          onTapUp: (_) {
-            _onVerticalDragEnd();
-          },
-          onVerticalDragEnd: (details) {
-            _onVerticalDragEnd(details: details);
-          },
-          onVerticalDragDown: _onVerticalDragUpdate,
-          onVerticalDragUpdate: _onVerticalDragUpdate,
-          child: Container(
-            color: Colors.transparent,
-            child: Column(
-              children: _letterList(),
-            ),
+    return Center(
+      child: GestureDetector(
+        onTapUp: (_) {
+          _onVerticalDragEnd();
+        },
+        onVerticalDragEnd: (details) {
+          _onVerticalDragEnd(details: details);
+        },
+        onVerticalDragDown: _onVerticalDragUpdate,
+        onVerticalDragUpdate: _onVerticalDragUpdate,
+        child: Container(
+          color: Colors.transparent,
+          padding: EdgeInsets.only(left: 10, right: 3),
+          child: Column(
+            children: _letterList(),
           ),
         ),
       ),
@@ -55,17 +52,12 @@ class _State extends State<IndexedTitleView> {
     List<Widget> titles = [];
     for (int i = 0; i < widget.sectionIndexTitles.length; i++) {
       final title = widget.sectionIndexTitles[i];
-      titles.add(Container(
-        padding: EdgeInsets.only(right: 4),
-        width: 60,
-        color: Colors.transparent,
-        child: Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: Text(
-            title,
-            textAlign: TextAlign.right,
-            style: i == _actLetter ? (widget.selectedStyle ?? widget.defaultStyle) : widget.defaultStyle
-          ),
+      titles.add(Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: Text(
+          title,
+          textAlign: TextAlign.right,
+          style: i == _actLetter ? (widget.selectedStyle ?? widget.defaultStyle) : widget.defaultStyle
         ),
       ));
     }
